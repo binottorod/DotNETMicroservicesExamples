@@ -14,7 +14,7 @@ namespace GeekShopping.Web.Controllers
 
         public async Task<IActionResult> ProductIndex()    
         {
-            var products = _prouctService.FindAllProducts();
+            var products = await _prouctService.FindAllProducts();
 
             return View(products);
         }

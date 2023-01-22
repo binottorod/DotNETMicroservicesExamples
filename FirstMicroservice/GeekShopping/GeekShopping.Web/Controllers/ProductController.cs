@@ -1,4 +1,5 @@
-﻿using GeekShopping.Web.Services.IServices;
+﻿using GeekShopping.Web.Models;
+using GeekShopping.Web.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeekShopping.Web.Controllers
@@ -12,11 +13,31 @@ namespace GeekShopping.Web.Controllers
             _prouctService = prouctService ?? throw new ArgumentNullException(nameof(prouctService));
         }
 
-        public async Task<IActionResult> ProductIndex()    
+        public async Task<IActionResult> ProductIndex()
         {
             var products = await _prouctService.FindAllProducts();
 
             return View(products);
+        }
+
+        public async Task<IActionResult> ProductCreate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProductCreate(ProductModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _prouctService.CreateProduct(model);
+                
+                if (response != null)
+                {
+                    return RedirectToAction(nameof(ProductIndex));
+                }
+            }
+            return View(model);
         }
     }
 }

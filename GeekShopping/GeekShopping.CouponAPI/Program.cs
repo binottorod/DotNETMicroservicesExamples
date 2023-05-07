@@ -1,13 +1,14 @@
 using AutoMapper;
-using GeekShopping.CartAPI.Config;
-using GeekShopping.CartAPI.Model.Context;
-using GeekShopping.CartAPI.Repository;
+using GeekShopping.CouponAPI.Config;
+using GeekShopping.CouponAPI.Model.Context;
+using GeekShopping.CouponAPI.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
 // Add services to the container.
 var connection = builder.Configuration["MySqlConnection:MySqlConnectionString"];
 
@@ -18,7 +19,7 @@ builder.Services.AddDbContext<MySQLContext>(options => options.UseMySql(
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICouponRepository, CouponRepository>();
 
 builder.Services.AddControllers();
 
@@ -45,7 +46,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "GeekShopping.CartAPI", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "GeekShopping.CouponAPI", Version = "v1" });
     c.EnableAnnotations();
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {

@@ -4,13 +4,17 @@ using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpClient<IProductService, ProductService>(
+    c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"])
+);
+builder.Services.AddHttpClient<ICartService, CartService>(c =>
+        c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CartAPI"])
+    );
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpClient<IProductService,ProductService>(
-    c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"]));
 
-builder.Services.AddAuthentication(options =>
-{
+builder.Services.AddAuthentication(options => {
     options.DefaultScheme = "Cookies";
     options.DefaultChallengeScheme = "oidc";
 })
@@ -37,7 +41,9 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
+
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();

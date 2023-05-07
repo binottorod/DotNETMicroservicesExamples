@@ -1,5 +1,4 @@
-﻿using GeekShopping.CartAPI.Base;
-using GeekShopping.CartAPI.Model;
+﻿using GeekShopping.CartAPI.Model.Base;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GeekShopping.CartAPI.Model
@@ -12,7 +11,7 @@ namespace GeekShopping.CartAPI.Model
         [ForeignKey("CartHeaderId")]
         public virtual CartHeader CartHeader { get; set; }
         public long ProductId { get; set; }
-        [ForeignKey("ProcutId")]
+        [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
 
         [Column("count")]

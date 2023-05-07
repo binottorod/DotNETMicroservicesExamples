@@ -58,7 +58,6 @@ namespace GeekShopping.CartAPI.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     CartHeaderId = table.Column<long>(type: "bigint", nullable: false),
                     ProductId = table.Column<long>(type: "bigint", nullable: false),
-                    ProcutId = table.Column<long>(type: "bigint", nullable: true),
                     count = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -71,10 +70,11 @@ namespace GeekShopping.CartAPI.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_cart_detail_product_ProcutId",
-                        column: x => x.ProcutId,
+                        name: "FK_cart_detail_product_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "product",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -84,9 +84,9 @@ namespace GeekShopping.CartAPI.Migrations
                 column: "CartHeaderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_cart_detail_ProcutId",
+                name: "IX_cart_detail_ProductId",
                 table: "cart_detail",
-                column: "ProcutId");
+                column: "ProductId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

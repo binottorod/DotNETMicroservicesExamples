@@ -28,6 +28,7 @@ namespace GeekShopping.CartAPI.Repository
             if (header != null)
             {
                 header.PaymentStatus = status;
+                await _db.SaveChangesAsync();
             }
 
         }
